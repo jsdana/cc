@@ -7,8 +7,9 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# Defina o caminho para a chave JSON. Substitua 'path_to_your_json_key.json' pelo caminho correto para o arquivo JSON.
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'chave.json'
+# Carrega as credenciais a partir da variável de ambiente
+credentials_info = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
+credentials = service_account.Credentials.from_service_account_info(credentials_info)
 
 client = texttospeech.TextToSpeechClient()
 
