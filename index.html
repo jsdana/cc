@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text to Speech</title>
+</head>
+<body>
+    <h1>Text to Speech</h1>
+    <textarea id="text" placeholder="Digite o texto aqui"></textarea>
+    <button onclick="synthesize()">Gerar Áudio</button>
+
+    <audio id="audio" controls></audio>
+
+    <script>
+        async function synthesize() {
+            const text = document.getElementById('text').value;
+            
+            // Verifica se o campo de texto está vazio
+            if (!text.trim()) {
+                alert("Por favor, insira algum texto.");
+                return;
+            }
+
+            const response = await fetch('http://127.0.0.1:5000/synthesize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text })
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const audio = document.getElementById('audio');
+                audio.src = url;
+                audio.play();
+            } else {
+                alert('Erro ao gerar áudio');
+            }
+        }
+    </script>
+</body>
+</html>
