@@ -3,6 +3,8 @@ from flask_cors import CORS
 from google.cloud import texttospeech
 import os
 from datetime import datetime
+import json
+from google.oauth2 import service_account
 
 app = Flask(__name__)
 CORS(app)
